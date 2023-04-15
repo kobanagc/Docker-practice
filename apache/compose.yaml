@@ -1,0 +1,5 @@
+services: # コンテナのこと
+  web: # コンテナ名（Apache1つだけなので今回はweb）
+    image: httpd:2.4 # Apacheのイメージ「httpd」
+    ports: # "ホストマシンのポート番号:コンテナのポート番号"
+      - "8080:80"

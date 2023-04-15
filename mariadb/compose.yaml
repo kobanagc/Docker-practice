@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mariadb:10.7
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: testdb
+      MARIADB_USER: testuser
+      MARIADB_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/mysql
+volumes:
+  db-data:
+
+# コンテナ内でコマンド実行1
+# docker compose exec コンテナ名 コンテナで実行したいコマンド
+# docker compose exec db mariadb --version
+
+# コンテナ内でコマンド実行2(コンテナ内でシェルを立ち上げ)
+# docker compose exec コンテナ名 /bin/bash
+# docker compose exec db /bin/bash
+# するとコンテナ内でシェルが立ち上がる
+# mariadb --version
+
+# さらにMariaDBに標準搭載のCLIを起動
+# mariadb -u testuser -D testdb -p
+# MARIADB_PASSWORDを入力
+# MariaDBのCLIを抜け出すには\q ,シェルを終了するにはexit
