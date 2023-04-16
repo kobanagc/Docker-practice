@@ -1,0 +1,9 @@
+services:
+  web: # コンテナの名前
+    build: . # カレントディレクトリにあるDockerfileを使ってイメージが作成される
+    environment:
+      FLASK_ENV: development # 環境変数
+    ports:
+      - "5001:5000" # ポート番号（flaskのデフォルトポート番号が5000のため）、またローカルポートの5000が使われていたので5001を使う
+    volumes:
+      - ./src:/usr/src/app # app.pyを格納したsrcディレクトリとコンテナ内の/usr/src/appをバインドマウント→pyファイルを変更し、ブラウザをリロードすれば変更が反映されている！
