@@ -1,0 +1,29 @@
+services:
+  db: # MariaDBのコンテナ
+    image: mariadb:10.7
+    environment: # 環境変数
+      MARIADB_ROOT_PASSWORD: rootpass # 接続先のコンテナ名。Docker Composeファイルで定義した名前を設定する。
+      MARIADB_DATABASE: wordpress # 接続先のデータベースのデータベース名
+      MARIADB_USER: wordpress # 接続先データベースのユーザー名
+      MARIADB_PASSWORD: wordpress # 接続先データベースのパスワード
+    volumes:
+      - db-data:/var/lib/mysql
+  wordpress: # wordpressのコンテナ
+    image: wordpress:6.0
+    depends_on: # コンテナの作成順を制御（DB→wordpress）
+      - db
+    environment: # 環境変数
+      WORDPRESS_DB_HOST: db # MariaDBのコンテナ名
+      WORDPRESS_DB_NAME: wordpress # MariaDBのデータベース名
+      WORDPRESS_DB_USER: wordpress # MariaDBのユーザー名
+      WORDPRESS_DB_PASSWORD: wordpress # MariaDBのパスワード
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+volumes:
+  db-data:
+
+# volumesはデータを永続化する仕組み
+# 永続化にはボリュームとバインドマウントの2種類がある
+# 今回MariaDBはボリューム、wordpressはバインドマウントで永続化
