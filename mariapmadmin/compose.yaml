@@ -1,0 +1,25 @@
+services:
+  db: # MariaDB コンテナ
+    image: mariadb:10.7
+    environment: # MariaDBのユーザー名などを指定
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: testdb
+      MARIADB_USER: testuser
+      MARIADB_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/mysql
+  phpmyadmin: # phpMyAdmin（MariaDBのGUIツール） コンテナ
+    image: phpmyadmin:5.2
+    depends_on:
+      - db
+    environment: # 環境変数（毎回の入力は面倒なのでユーザー名やパスを設定しておく）
+      PMA_HOST: db # MariaDBコンテナの名前を設定
+      PMA_USER: testuser
+      PMA_PASSWORD: testpass
+    ports:
+      - "8080:80"
+    volumes:
+      - phpmyadmin-data:/sessions
+volumes: # ボリュームの作成
+  db-data:
+  phpmyadmin-data:
