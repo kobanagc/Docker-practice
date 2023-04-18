@@ -1,0 +1,19 @@
+services:
+  db: # PostgreSQLコンテナ
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuesr
+      POSTGRES_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  web: # Djangoコンテナ
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+volumes:
+  db-data:
